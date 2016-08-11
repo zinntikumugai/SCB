@@ -2,3 +2,25 @@ name: SetCommandBlock
 main: xyz.zinntikumugai.pl.setcommandblock.SetCommandBlock
 version: 0.0.1
 author: zinntikumugai
+default-permission: false
+
+commands:
+  setcommandblock:
+    description: ""
+    permission: setcommandblock.use
+    
+
+permissions:
+  setcommandblock.use:
+
+  setcommandblock.put:
+    children:
+      setcommandblock.use: true
+
+  setcommandblock.commandset:
+    children:
+      setcommandblock.use: true
+
+  setcommandblock.commandremove:
+    children:
+      setcommandblock.use: true

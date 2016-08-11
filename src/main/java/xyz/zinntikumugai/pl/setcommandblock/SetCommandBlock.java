@@ -7,6 +7,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class SetCommandBlock extends JavaPlugin {
 
 	private SetCommandBlockCommand scbCommand;
+	private boolean isCanCommandBlockCommand = false;
 
 	public void onEnable() {
 		scbCommand = new SetCommandBlockCommand(this);
@@ -14,6 +15,7 @@ public class SetCommandBlock extends JavaPlugin {
 		getCommand("SetCommandBlock").setExecutor(scbCommand);
 
 		getServer().getPluginManager().registerEvents(new SetCommandBlockListener(this), this);
+
 	}
 
 	public void onDisable() {
@@ -22,5 +24,9 @@ public class SetCommandBlock extends JavaPlugin {
 
 	public Logger getLogHandler() {
 		return getLogger();
+	}
+
+	public boolean getIsCanCommandBlockCOmmand() {
+		return isCanCommandBlockCommand;
 	}
 }
