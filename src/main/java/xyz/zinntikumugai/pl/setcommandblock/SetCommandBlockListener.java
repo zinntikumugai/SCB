@@ -72,11 +72,17 @@ public class SetCommandBlockListener implements Listener {
 			return ;
 		}
 
+		if( !isCanSetBlock(p, block)) {
+			return ;
+		}
+		Block commandBlock = this.getCommandBlockPeel(e.getClickedBlock(), blockface, clickedBlockType);
+
+
 		//
 	}
 
 	/**
-	 * クリックされたブロックとクリックされた面の情報でブロックの方向を求め指定ブロックを置く
+	 * クリックされたブロックとクリックされた面の情報でブロックの方向を求め指定ブロックを取得
 	 * @param clickedBlock	クリックされたブロック
 	 * @param blockFace	クリックされたブロックの情報
 	 * @param commandBlockMaterial	置くブロック
@@ -127,5 +133,35 @@ public class SetCommandBlockListener implements Listener {
 
 		commandBlock.setType( commandBlockMaterial );
 		return commandBlock;
+	}
+
+	/**
+	 * プレイヤーの位置情報からブロックが置けるか
+	 * @param p		プレイヤー
+	 * @param setBlock	置くブロック
+	 * @return	置けるならtrue, 置けないならfalse
+	 */
+	private boolean isCanSetBlock(Player p, Block setBlock) {
+		double max = 0.3;
+
+		double maxX = (double)setBlock.getX() + max;
+		double minX = (double)setBlock.getX() - max;
+		double maxZ = (double)setBlock.getZ() + max;
+		double minZ = (double)setBlock.getZ() - max;
+
+		double pX = p.getLocation().getX();
+		double pZ = p.getLocation().getZ();
+
+		if( (int)p.getLocation().getY() != setBlock.getY()) {
+			return true;
+		}
+
+		if( pX > maxX && minX > pX ) {
+			return true;
+		}
+		if( pZ > maxX && minZ > pZ) {
+			return true;
+		}
+		return false;
 	}
 }
