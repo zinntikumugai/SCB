@@ -7,10 +7,15 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class SetCommandBlock extends JavaPlugin {
 
 	private SetCommandBlockCommand scbCommand;
+	private SetCommandBlockConfig scbConfig;
+	private SetCommandBlockPermissins scbPermissin;
+
 	private boolean isCanCommandBlockCommand = false;
 
 	public void onEnable() {
 		scbCommand = new SetCommandBlockCommand(this);
+		scbConfig = new SetCommandBlockConfig(this);
+		scbPermissin = new SetCommandBlockPermissins();
 
 		getCommand("SetCommandBlock").setExecutor(scbCommand);
 
@@ -28,5 +33,13 @@ public class SetCommandBlock extends JavaPlugin {
 
 	public boolean getIsCanCommandBlockCOmmand() {
 		return isCanCommandBlockCommand;
+	}
+
+	public SetCommandBlockConfig getConfigHandler() {
+		return scbConfig;
+	}
+
+	public SetCommandBlockPermissins getPermissins() {
+		return scbPermissin;
 	}
 }

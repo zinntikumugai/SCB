@@ -1,0 +1,6 @@
+#  SetCommandBlock ConfigFile
+#  ConfigFileVersion 0.1
+
+Log:
+  Prefix: ""
+  Title: ""

@@ -16,9 +16,12 @@ import org.bukkit.inventory.ItemStack;
 public class SetCommandBlockListener implements Listener {
 
 	private final Logger logs;
+	private final String permissionUse;
+	private Util util;
 
 	public SetCommandBlockListener(SetCommandBlock scb) {
 		this.logs = scb.getLogger();
+		this.permissionUse = scb.getPermissins().getPermissionUse();
 	}
 
 	@EventHandler
@@ -31,6 +34,10 @@ public class SetCommandBlockListener implements Listener {
 		}
 
 		Player p = e.getPlayer();
+		if(!(util.hasPlayerPermission(p, permissionUse))) {
+			return;
+		}
+
 		ItemStack is = p.getItemOnCursor();	//クリックしたほうのアイテムスタックを取得
 		if( !(
 				is.equals(Material.COMMAND) ||
@@ -65,46 +72,48 @@ public class SetCommandBlockListener implements Listener {
 			return ;
 		}
 
+		//
 	}
 
 	/**
-	 * クリックされたブロックとクリック時のブロック関係の情報からコマンドブロックの向きを求める
-	 * @param clickedblock
-	 * @param commandblock
-	 * @return
+	 * クリックされたブロックとクリックされた面の情報でブロックの方向を求め指定ブロックを置く
+	 * @param clickedBlock	クリックされたブロック
+	 * @param blockFace	クリックされたブロックの情報
+	 * @param commandBlockMaterial	置くブロック
+	 * @return 生成されたブロックデータ
 	 */
-	private Block getCommandBlockPeel(Block clickedblock, BlockFace blockface) {
-		Block commandblock = clickedblock;
+	private Block getCommandBlockPeel(Block clickedBlock, BlockFace blockFace, Material commandBlockMaterial) {
+		Block commandBlock = clickedBlock;
 		int pitch, yaw;
 		pitch = yaw = 0;
 
-		commandblock.getLocation().setX( commandblock.getLocation().getX() + blockface.getModX() );
-		commandblock.getLocation().setY( commandblock.getLocation().getY() + blockface.getModY() );
-		commandblock.getLocation().setZ( commandblock.getLocation().getZ() + blockface.getModZ() );
+		commandBlock.getLocation().setX( commandBlock.getLocation().getX() + blockFace.getModX() );
+		commandBlock.getLocation().setY( commandBlock.getLocation().getY() + blockFace.getModY() );
+		commandBlock.getLocation().setZ( commandBlock.getLocation().getZ() + blockFace.getModZ() );
 
-		if( commandblock.getLocation().getY() == blockface.getModY()) {
+		if( commandBlock.getLocation().getY() == blockFace.getModY()) {
 
-			if( blockface.getModY() == 1)
+			if( blockFace.getModY() == 1)
 				pitch = -90;
-			else if ( blockface.getModY() == -1)
+			else if ( blockFace.getModY() == -1)
 				pitch = 90;
 			else
 				pitch = 0;	//
 		}else {
 			pitch = 0;
-			if( blockface.getModX() != 0) {
+			if( blockFace.getModX() != 0) {
 
-				if( blockface.getModX() == 1)
+				if( blockFace.getModX() == 1)
 					yaw = 90;
-				else if ( blockface.getModX() == -1)
+				else if ( blockFace.getModX() == -1)
 					yaw = -90;
 				else
 					yaw = 0;	//
-			}else if(blockface.getModZ() != 1){
+			}else if(blockFace.getModZ() != 1){
 
-				if(blockface.getModZ() == 1)
+				if(blockFace.getModZ() == 1)
 					yaw = -180;
-				else if(blockface.getModZ() == -1)
+				else if(blockFace.getModZ() == -1)
 					yaw = 0;
 				else
 					yaw = 0;	//
@@ -113,10 +122,10 @@ public class SetCommandBlockListener implements Listener {
 			}
 		}
 
-		commandblock.getLocation().setPitch( pitch );
-		commandblock.getLocation().setYaw( yaw );
+		commandBlock.getLocation().setPitch( pitch );
+		commandBlock.getLocation().setYaw( yaw );
 
-		commandblock.setType( Material.COMMAND );
-		return commandblock;
+		commandBlock.setType( commandBlockMaterial );
+		return commandBlock;
 	}
 }

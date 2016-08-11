@@ -11,11 +11,12 @@ import org.bukkit.entity.Player;
 public class SetCommandBlockCommand implements CommandExecutor {
 
 	private final Logger logs;
-	private static final String defpermission = "setcommandblock.use";
+	private final String permissionUse;
 	private Util pluginutil;
 
 	public SetCommandBlockCommand(SetCommandBlock scb) {
 		this.logs = scb.getLogger();
+		permissionUse = scb.getPermissins().getPermissionUse();
 	}
 
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -29,7 +30,7 @@ public class SetCommandBlockCommand implements CommandExecutor {
 			return false;
 		}
 
-		if(! pluginutil.hasPlayerPermission(p, defpermission)) {
+		if(! pluginutil.hasPlayerPermission(p, permissionUse)) {
 			return false;
 		}else {
 			switch( args[0]) {
