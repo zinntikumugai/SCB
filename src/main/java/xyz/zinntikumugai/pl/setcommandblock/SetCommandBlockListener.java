@@ -2,6 +2,7 @@ package xyz.zinntikumugai.pl.setcommandblock;
 
 import java.util.logging.Logger;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -16,12 +17,10 @@ import org.bukkit.inventory.ItemStack;
 public class SetCommandBlockListener implements Listener {
 
 	private final Logger logs;
-	private final String permissionUse;
-	private Util util;
+	private final String permissionUse = "setcommandblock.use";
 
 	public SetCommandBlockListener(SetCommandBlock scb) {
 		this.logs = scb.getLogger();
-		this.permissionUse = scb.getPermissins().getPermissionUse();
 	}
 
 	@EventHandler
@@ -34,10 +33,6 @@ public class SetCommandBlockListener implements Listener {
 		}
 
 		Player p = e.getPlayer();
-		if(!(util.hasPlayerPermission(p, permissionUse))) {
-			return;
-		}
-
 		ItemStack is = p.getItemOnCursor();	//クリックしたほうのアイテムスタックを取得
 		if( !(
 				is.equals(Material.COMMAND) ||
@@ -45,6 +40,10 @@ public class SetCommandBlockListener implements Listener {
 				is.equals(Material.COMMAND_REPEATING)
 				)) {
 			return ;
+		}
+		if(!p.hasPermission(permissionUse)) {
+			p.sendMessage(ChatColor.RED + "You Don't have Permission");
+			return;
 		}
 
 		Material clickedBlockType = e.getClickedBlock().getType();
@@ -159,7 +158,7 @@ public class SetCommandBlockListener implements Listener {
 		if( pX > maxX && minX > pX ) {
 			return true;
 		}
-		if( pZ > maxX && minZ > pZ) {
+		if( pZ > maxZ && minZ > pZ) {
 			return true;
 		}
 		return false;

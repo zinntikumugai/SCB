@@ -8,17 +8,15 @@ public class SetCommandBlock extends JavaPlugin {
 
 	private SetCommandBlockCommand scbCommand;
 	private SetCommandBlockConfig scbConfig;
-	private SetCommandBlockPermissins scbPermissin;
 
 	private boolean isCanCommandBlockCommand = false;
 
 	public void onEnable() {
 		scbCommand = new SetCommandBlockCommand(this);
 		scbConfig = new SetCommandBlockConfig(this);
-		scbPermissin = new SetCommandBlockPermissins();
+		//scbPermissin = new SetCommandBlockPermissins();
 
-		getCommand("SetCommandBlock").setExecutor(scbCommand);
-
+		getCommand("setcommandblock").setExecutor(scbCommand);
 		getServer().getPluginManager().registerEvents(new SetCommandBlockListener(this), this);
 
 	}
@@ -37,9 +35,5 @@ public class SetCommandBlock extends JavaPlugin {
 
 	public SetCommandBlockConfig getConfigHandler() {
 		return scbConfig;
-	}
-
-	public SetCommandBlockPermissins getPermissins() {
-		return scbPermissin;
 	}
 }

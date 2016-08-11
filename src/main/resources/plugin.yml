@@ -12,15 +12,23 @@ commands:
 
 permissions:
   setcommandblock.use:
+    description: ""
+    default: false
 
   setcommandblock.put:
+    description: ""
     children:
       setcommandblock.use: true
+    default: false
 
   setcommandblock.commandset:
+    description: ""
     children:
       setcommandblock.use: true
+    default: false
 
   setcommandblock.commandremove:
+    description: ""
     children:
       setcommandblock.use: true
+    default: false
